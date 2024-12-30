@@ -1,11 +1,11 @@
 // App.tsx
-import { ContextProvider } from "../../Context/ContextProvider.tsx";
-import { TodoApp } from "../TodoApp/TodoApp.tsx";
+import ContextProvider from '../../Context/ContextProvider';
+import TodoApp from '../TodoApp/TodoApp';
 
-export const App: React.FC = () => {
-  return (
+const App: React.FC = () => (
     <ContextProvider>
       <TodoApp />
     </ContextProvider>
-  );
-};
+);
+
+export default App;

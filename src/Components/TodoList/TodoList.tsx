@@ -1,12 +1,11 @@
 // TodoList.tsx
-import { TodoItem } from "../TodoItem/TodoItem.tsx";
-import { useContext } from "react";
-import { ContextWrapper } from "../../Context/ContextWrapper.tsx";
-import { ContextType } from "../../Context/ContextProvider.tsx"
-import "./TodoList.css";
+import { useContext } from 'react';
+import TodoItem from '../TodoItem/TodoItem';
+import ContextWrapper from '../../Context/ContextWrapper';
+import { ContextType } from '../../Context/ContextProvider';
+import './TodoList.css';
 
-
-export const TodoList: React.FC = () => {
+const TodoList: React.FC = () => {
   const { todos } = useContext(ContextWrapper) as ContextType;
 
   return (
@@ -17,3 +16,5 @@ export const TodoList: React.FC = () => {
     </ul>
   );
 };
+
+export default TodoList;

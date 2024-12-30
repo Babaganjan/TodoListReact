@@ -1,7 +1,7 @@
 // ContextProvider.tsx
-import { useState, ReactNode } from "react";
+import { useState, ReactNode } from 'react';
 
-import { ContextWrapper } from "./ContextWrapper.tsx";
+import ContextWrapper from './ContextWrapper';
 
 // Интерфейс для задачи
 export interface Todo {
@@ -30,9 +30,9 @@ export interface ContextType {
   filterClearCompleted: () => void;
 }
 
-export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
+const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState('all');
 
   const addTodo = (description: string) => {
     const newTodo = {
@@ -46,18 +46,14 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
 
   const checkedTodo = (id: number) => {
     setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
+      todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo)),
     );
   };
 
   // Функция для изменения задачи
   const changeTodo = (id: number, newDescription: string) => {
     setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, description: newDescription } : todo
-      )
+      todos.map((todo) => (todo.id === id ? { ...todo, description: newDescription } : todo)),
     );
   };
 
@@ -72,15 +68,15 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
   };
 
   const filterAllTodos = () => {
-    setFilter("all"); // Устанавливаем фильтр на "все"
+    setFilter('all'); // Устанавливаем фильтр на "все"
   };
 
   const filterActiveTodos = () => {
-    setFilter("active"); // Устанавливаем фильтр на "активные"
+    setFilter('active'); // Устанавливаем фильтр на "активные"
   };
 
   const filterCompletedTodos = () => {
-    setFilter("completed"); // Устанавливаем фильтр на "выполненные"
+    setFilter('completed'); // Устанавливаем фильтр на "выполненные"
   };
 
   const filterClearCompletedTodos = () => {
@@ -88,10 +84,10 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
   };
 
   const filteredTodos = () => {
-    if (filter === "completed") {
+    if (filter === 'completed') {
       return todos.filter((todo) => todo.completed);
     }
-    if (filter === "active") {
+    if (filter === 'active') {
       return todos.filter((todo) => !todo.completed);
     }
     return todos; // "all" или любое другое значение
@@ -116,3 +112,5 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
     </ContextWrapper.Provider>
   );
 };
+
+export default ContextProvider;

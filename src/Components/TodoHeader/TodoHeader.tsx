@@ -1,17 +1,17 @@
 // TodoHeader.tsx
-import { useState,useContext, KeyboardEvent } from "react";
-import { ContextWrapper } from "../../Context/ContextWrapper.tsx";
-import "./TodoHeader.css";
+import { useState, useContext, KeyboardEvent } from 'react';
+import ContextWrapper from '../../Context/ContextWrapper';
+import './TodoHeader.css';
 
-export const TodoHeader: React.FC = () => {
+const TodoHeader: React.FC = () => {
   const { onAdd } = useContext(ContextWrapper) as { onAdd: (description: string) => void };
-  const [inputValue, setInputValue] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>('');
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      if (inputValue.trim() !== "") {
+    if (event.key === 'Enter') {
+      if (inputValue.trim() !== '') {
         onAdd(inputValue);
-        setInputValue("");
+        setInputValue('');
       }
     }
   };
@@ -30,3 +30,5 @@ export const TodoHeader: React.FC = () => {
     </header>
   );
 };
+
+export default TodoHeader;

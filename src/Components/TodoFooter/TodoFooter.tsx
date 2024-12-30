@@ -1,13 +1,11 @@
 // TodoFooter.tsx
-import { useState, useContext } from "react";
-import { ContextWrapper } from "../../Context/ContextWrapper.tsx";
-import { ContextType } from "../../Context/ContextProvider.tsx"; // Импортируйте ваш интерйфейс ContextType
+import { useState, useContext } from 'react';
+import ContextWrapper from '../../Context/ContextWrapper';
+import { ContextType } from '../../Context/ContextProvider'; // Импортируйте ваш интерйфейс ContextType
 
-import "./TodoFooter.css";
+import './TodoFooter.css';
 
-
-
-export const TodoFooter: React.FC = () => {
+const TodoFooter: React.FC = () => {
   const context = useContext(ContextWrapper) as ContextType;
 
   // Проверка на наличие контекста
@@ -23,21 +21,21 @@ export const TodoFooter: React.FC = () => {
     showItemsLeft,
   } = context; // Теперь вы можете использовать значение от контекста
 
-  const [activeFilter, setActiveFilter] = useState<string>("all");
+  const [activeFilter, setActiveFilter] = useState<string>('all');
 
   const handleAllTodos = () => {
     filterAll();
-    setActiveFilter("all");
+    setActiveFilter('all');
   };
 
   const handleActiveTodos = () => {
     filterActive();
-    setActiveFilter("active");
+    setActiveFilter('active');
   };
 
   const handleCompletedTodos = () => {
     filterCompleted();
-    setActiveFilter("completed");
+    setActiveFilter('completed');
   };
 
   const handleClearCompleted = () => {
@@ -50,7 +48,7 @@ export const TodoFooter: React.FC = () => {
       <ul className="filters">
         <li>
           <button
-            className={activeFilter === "all" ? "selected" : ""}
+            className={activeFilter === 'all' ? 'selected' : ''}
             onClick={handleAllTodos}
           >
             All
@@ -58,7 +56,7 @@ export const TodoFooter: React.FC = () => {
         </li>
         <li>
           <button
-            className={activeFilter === "active" ? "selected" : ""}
+            className={activeFilter === 'active' ? 'selected' : ''}
             onClick={handleActiveTodos}
           >
             Active
@@ -66,7 +64,7 @@ export const TodoFooter: React.FC = () => {
         </li>
         <li>
           <button
-            className={activeFilter === "completed" ? "selected" : ""}
+            className={activeFilter === 'completed' ? 'selected' : ''}
             onClick={handleCompletedTodos}
           >
             Completed
@@ -79,3 +77,5 @@ export const TodoFooter: React.FC = () => {
     </footer>
   );
 };
+
+export default TodoFooter;

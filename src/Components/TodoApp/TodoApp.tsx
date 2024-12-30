@@ -1,14 +1,14 @@
 // TodoApp.tsx
-import { TodoHeader } from "../TodoHeader/TodoHeader.tsx";
-import { TodoMain } from "../TodoMain/TodoMain.tsx";
+import TodoHeader from '../TodoHeader/TodoHeader';
+import TodoMain from '../TodoMain/TodoMain';
 
-import "./TodoApp.css";
+import './TodoApp.css';
 
-export const TodoApp: React.FC = () => {
-  return (
+const TodoApp: React.FC = () => (
     <section className="todoapp">
       <TodoHeader />
       <TodoMain />
     </section>
-  );
-};
+);
+
+export default TodoApp;
