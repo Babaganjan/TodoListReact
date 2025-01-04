@@ -5,10 +5,10 @@ import TodoMain from '../TodoMain/TodoMain';
 import './TodoApp.css';
 
 const TodoApp: React.FC = () => (
-    <section className="todoapp">
-      <TodoHeader />
-      <TodoMain />
-    </section>
+  <section className="todoapp">
+    <TodoHeader />
+    <TodoMain />
+  </section>
 );
 
 export default TodoApp;

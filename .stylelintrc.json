@@ -1,0 +1,13 @@
+{
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "color-hex-length": "short",
+      "block-no-empty": true,
+      "property-no-vendor-prefix": true,
+      "no-descending-specificity": true,
+      "selector-pseudo-element-colon-notation": "double",
+      "alpha-value-notation": "percentage",
+      "shorthand-property-no-redundant-values": true
+    }
+  }
+  

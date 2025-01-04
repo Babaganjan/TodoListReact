@@ -4,7 +4,9 @@ import ContextWrapper from '../../Context/ContextWrapper';
 import './TodoHeader.css';
 
 const TodoHeader: React.FC = () => {
-  const { onAdd } = useContext(ContextWrapper) as { onAdd: (description: string) => void };
+  const { onAdd } = useContext(ContextWrapper) as {
+    onAdd: (description: string) => void;
+  };
   const [inputValue, setInputValue] = useState<string>('');
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {

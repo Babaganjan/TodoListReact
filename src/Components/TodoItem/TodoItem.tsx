@@ -2,13 +2,14 @@
 import { useState, useEffect, useContext } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import ContextWrapper from '../../Context/ContextWrapper';
-import { ContextType } from '../../Context/ContextProvider';
-import { Todo } from '../../Context/ContextProvider'
+import { ContextType, Todo } from '../../Context/ContextProvider';
 
 import './TodoItem.css';
 
 const TodoItem = ({ todo }: { todo: Todo }) => {
-  const { onChecked, onDelete, onChange } = useContext(ContextWrapper) as ContextType;
+  const { onChecked, onDelete, onChange } = useContext(
+    ContextWrapper,
+  ) as ContextType;
   const [isEditing, setIsEditing] = useState(false);
   const [newDescription, setNewDescription] = useState(todo.description);
   // const [createdTime, setCreatedTime] = useState(todo.created);
@@ -74,6 +75,7 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
               onChange={(e) => setNewDescription(e.target.value)}
               onBlur={handleSave} // Сохраняем при потере фокуса
               onKeyDown={handleKeyDown} // Сохраняем при нажатии Enter
+              autoFocus
             />
           </>
         ) : (
