@@ -1,27 +1,27 @@
 // TodoFooter.tsx
-import { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import ContextWrapper from '../../Context/ContextWrapper';
-import { ContextType } from '../../Context/ContextProvider'; // Импортируйте ваш интерйфейс ContextType
-
 import './TodoFooter.css';
 
+// Определяем типы для контекста
+interface TodoContextType {
+  filterAll: () => void;
+  filterActive: () => void;
+  filterCompleted: () => void;
+  filterClearCompleted: () => void;
+  showItemsLeft: () => number;
+}
+
 const TodoFooter: React.FC = () => {
-  const context = useContext(ContextWrapper) as ContextType;
-
-  // Проверка на наличие контекста
-  if (!context) {
-    throw new Error('TodoFooter must be used within a ContextProvider');
-  }
-
   const {
     filterAll,
     filterActive,
     filterCompleted,
     filterClearCompleted,
     showItemsLeft,
-  } = context; // Теперь вы можете использовать значение от контекста
+  } = useContext(ContextWrapper) as TodoContextType;
 
-  const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [activeFilter, setActiveFilter] = useState<'all' | 'active' | 'completed'>('all');
 
   const handleAllTodos = () => {
     filterAll();
@@ -44,7 +44,7 @@ const TodoFooter: React.FC = () => {
 
   return (
     <footer className="footer">
-      <span className="todo-count">Items left: {showItemsLeft()}</span>
+      <span className="todo-count">{`Items left: ${showItemsLeft()}`}</span>
       <ul className="filters">
         <li>
           <button

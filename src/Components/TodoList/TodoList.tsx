@@ -1,18 +1,36 @@
 // TodoList.tsx
-import { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import TodoItem from '../TodoItem/TodoItem';
-import ContextWrapper from '../../Context/ContextWrapper';
-import { ContextType } from '../../Context/ContextProvider';
+import { Todo } from '../../Context/ContextProvider';
 import './TodoList.css';
 
-const TodoList: React.FC = () => {
-  const { todos } = useContext(ContextWrapper) as ContextType;
+interface TodoContextType {
+  todos: Todo[];
+  filter: string;
+}
+
+const TodoList: React.FC<TodoContextType> = ({ todos, filter }) => {
+  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    if (todos && Array.isArray(todos)) {
+      if (filter === 'completed') {
+        setFilteredTodos(todos.filter((item) => item && item.completed));
+      } else if (filter === 'active') {
+        setFilteredTodos(todos.filter((item) => item && !item.completed));
+      } else {
+        setFilteredTodos(todos.filter((item) => item));
+      }
+    }
+  }, [filter, todos]);
 
   return (
     <ul className="todo-list">
-      {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} />
-      ))}
+      {filteredTodos.map((todo) => {
+        if (!todo) return null;
+
+        return <TodoItem key={todo.id} todo={todo} />;
+      })}
     </ul>
   );
 };

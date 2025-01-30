@@ -1,23 +1,3 @@
-// module.exports = {
-//   root: true,
-//   env: { browser: true, es2020: true },
-//   extends: [
-//     "airbnb/base",
-//     "eslint:recommended",
-//     "plugin:@typescript-eslint/recommended",
-//     "plugin:react-hooks/recommended",
-//   ],
-//   ignorePatterns: ["dist", ".eslintrc.cjs"],
-//   parser: "@typescript-eslint/parser",
-//   plugins: ["react-refresh"],
-//   rules: {
-//     "react-refresh/only-export-components": [
-//       "warn",
-//       { allowConstantExport: true },
-//     ],
-//   },
-// };
-
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
@@ -29,11 +9,11 @@ module.exports = {
   ],
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
-  plugins: ["react-refresh", "import"], // Добавьте плагин import
+  plugins: ["react-refresh", "import"],
   settings: {
     "import/resolver": {
       node: {
-        extensions: [".js", ".jsx", ".ts", ".tsx"], // Укажите расширения, которые используете
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
       },
     },
   },
@@ -44,14 +24,13 @@ module.exports = {
     ],
     "import/extensions": [
       "error",
-      "always", // Измените на always, если требуется
+      "always",
       {
-        ts: "never", // Попробуйте удалить расширения для ts
+        ts: "never",
         tsx: "never",
         js: "never",
         jsx: "never",
       },
     ],
-    // Добавьте другие ваши правила здесь
   },
 };
