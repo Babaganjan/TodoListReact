@@ -1,30 +1,51 @@
-// TodoItem.jsx
-import { useState, useEffect, useContext } from 'react';
+// TodoItem.tsx
+import React, { useState, useContext } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import ContextWrapper from '../../Context/ContextWrapper';
-import { ContextType, Todo } from '../../Context/ContextProvider';
-
 import './TodoItem.css';
 
-const TodoItem = ({ todo }: { todo: Todo }) => {
-  const { onChecked, onDelete, onChange } = useContext(
-    ContextWrapper,
-  ) as ContextType;
-  const [isEditing, setIsEditing] = useState(false);
-  const [newDescription, setNewDescription] = useState(todo.description);
-  // const [createdTime, setCreatedTime] = useState(todo.created);
-  const [createdTime, setCreatedTime] = useState<Date>(new Date()); // или <number> с Date.now()
+interface Todo {
+  id: number;
+  description: string;
+  timer: {
+    totalSeconds: number;
+  };
+  created: Date;
+  completed: boolean;
+  isRunning: boolean;
+}
 
-  const btnDeleteStyle = {
-    zIndex: isEditing ? -1 : 0,
+// Определяем типы для контекста
+interface TodoContextType {
+  onChecked: (id: number) => void;
+  onDelete: (id: number) => void;
+  onChange: (id: number, newDescription: string) => void;
+  startTimer: (id: number) => void;
+  pauseTimer: (id: number) => void;
+}
+
+const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
+  const {
+    onChecked, onDelete, onChange, startTimer, pauseTimer,
+  } = useContext(ContextWrapper) as TodoContextType;
+
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [newDescription, setNewDescription] = useState<string>(todo.description);
+  const [createdTime, setCreatedTime] = useState<number>(todo.created.getTime());
+
+  const formatTime = (totalSeconds: number): string => {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
   };
 
   const handleTodoChecked = () => {
     onChecked(todo.id);
+    pauseTimer(todo.id);
   };
 
   const handleTodoChange = () => {
-    setIsEditing(true); // Переход в режим редактирования
+    setIsEditing(true);
   };
 
   const handleTodoDelete = () => {
@@ -33,29 +54,21 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
 
   const handleSave = () => {
     if (newDescription.trim()) {
-      onChange(todo.id, newDescription); // Обновляем задачу с новым значением
-      setCreatedTime(new Date()); // Обновляем время создания при сохранении
+      onChange(todo.id, newDescription);
+      setCreatedTime(Date.now());
     }
-    setIsEditing(false); // Выходим из режима редактирования
+    setIsEditing(false);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      handleSave(); // Сохраняем при нажатии Enter
+      handleSave();
     }
   };
 
-  // Обновление времени создания в реальном времени
-  useEffect(() => {
-    let interval: number; // или можно использовать number, если не используете NodeJS
-
-    if (isEditing) {
-      interval = setInterval(() => {
-        setCreatedTime((prevTime) => prevTime); // Обновляем состояние каждую секунду
-      }, 1000);
-    }
-    return () => clearInterval(interval); // Очистка интервала при размонтировании
-  }, [isEditing]);
+  const btnDeleteStyle: React.CSSProperties = {
+    zIndex: isEditing ? -1 : 0,
+  };
 
   return (
     <li className={todo.completed ? 'completed' : ''}>
@@ -73,18 +86,31 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
               type="text"
               value={newDescription}
               onChange={(e) => setNewDescription(e.target.value)}
-              onBlur={handleSave} // Сохраняем при потере фокуса
-              onKeyDown={handleKeyDown} // Сохраняем при нажатии Enter
-              autoFocus
+              onBlur={handleSave}
+              onKeyDown={handleKeyDown}
             />
           </>
         ) : (
           <>
-            <label onClick={handleTodoChecked}>
-              <span className="description">{todo.description}</span>
+            <label>
+              <span className="title" onClick={handleTodoChecked}>
+                {todo.description}
+              </span>
+              <span className="description">
+                <button
+                  className="icon icon-play"
+                  onClick={() => startTimer(todo.id)}
+                  disabled={todo.isRunning}
+                ></button>
+                <button
+                  className="icon icon-pause"
+                  onClick={() => pauseTimer(todo.id)}
+                  disabled={!todo.isRunning}
+                ></button>
+                <span>{formatTime(todo.timer.totalSeconds)}</span>
+              </span>
               <span className="created">
                 created{' '}
-                {/* {formatDistanceToNow(todo.created, { includeSeconds: true })} */}
                 {formatDistanceToNow(new Date(createdTime), {
                   includeSeconds: true,
                   addSuffix: true,

@@ -14,17 +14,14 @@
     "test": "echo \"No tests specified\" && exit 0"
   },
   "lint-staged": {
-    "*.js": [
+    "*.tsx": [
       "eslint --fix"
-    ],
-    "*.css": [
-      "stylelint --fix"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "YOUR_COMMAND_HERE",
-      "pre-push": "YOUR_COMMAND_HERE"
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
     }
   },
   "dependencies": {
